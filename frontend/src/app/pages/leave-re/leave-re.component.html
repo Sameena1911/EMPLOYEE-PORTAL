@@ -1,0 +1,121 @@
+<!-- Navigation Header -->
+<div class="navigation-header">
+  <button class="back-btn" (click)="goBackToDashboard()">
+    <span class="back-icon">←</span>
+    Back to Dashboard
+  </button>
+</div>
+
+<!-- Loading State -->
+<div *ngIf="loading" class="loading-container">
+  <div class="loading-spinner"></div>
+  <p>Loading leave requests...</p>
+</div>
+
+<!-- Leave Requests Data -->
+<div *ngIf="!loading && !error && leaves.length > 0" class="leave-container">
+  <div class="leave-header">
+    <div class="header-content">
+      <h2 class="page-title">Leave Requests</h2>
+      <p class="employee-info">Employee ID: {{ currentPernr }}</p>
+    </div>
+    <div class="header-stats">
+      <div class="stat-card">
+        <span class="stat-number">{{ leaves.length }}</span>
+        <span class="stat-label">Total Requests</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="leave-content">
+    <!-- Action Buttons -->
+    <div class="action-bar">
+      <button class="action-btn primary" (click)="refreshLeaves()">
+        <span class="btn-icon">🔄</span>
+        Refresh
+      </button>
+      <button class="action-btn secondary" (click)="exportLeaves()">
+        <span class="btn-icon">📄</span>
+        Export
+      </button>
+    </div>
+
+    <!-- Leave Requests Grid -->
+    <div class="leave-grid">
+      <div *ngFor="let leave of leaves; let i = index" class="leave-card">
+        <div class="card-header">
+          <div class="leave-category" [style.background-color]="getCategoryColor(leave.Category)">
+            {{ getStatusText(leave.Category) }}
+          </div>
+          <div class="leave-dates">
+            <span class="date-label">Request #{{ i + 1 }}</span>
+          </div>
+        </div>
+        
+        <div class="card-content">
+          <div class="date-range">
+            <div class="date-item">
+              <label>Start Date</label>
+              <span class="date-value">{{ formatDate(leave.StartDate) }}</span>
+            </div>
+            <div class="date-separator">→</div>
+            <div class="date-item">
+              <label>End Date</label>
+              <span class="date-value">{{ formatDate(leave.EndDate) }}</span>
+            </div>
+          </div>
+
+          <div class="leave-details">
+            <div class="detail-row">
+              <label>Duration</label>
+              <span class="detail-value">{{ calculateDays(leave.StartDate, leave.EndDate) }} day(s)</span>
+            </div>
+            
+            <div class="detail-row" *ngIf="leave.Description">
+              <label>Description</label>
+              <span class="detail-value">{{ leave.Description }}</span>
+            </div>
+
+            <div class="detail-row" *ngIf="leave.Qtype">
+              <label>Time Type</label>
+              <span class="detail-value">{{ leave.Qtype }}</span>
+            </div>
+
+            <div class="detail-row" *ngIf="leave.Qtime && leave.Qtime !== '00:00:00'">
+              <label>Duration Time</label>
+              <span class="detail-value">{{ formatTime(leave.Qtime) }}</span>
+            </div>
+
+            <div class="time-range" *ngIf="leave.QStart && leave.QEnd">
+              <div class="time-item">
+                <label>Start Time</label>
+                <span class="time-value">{{ formatTime(leave.QStart) }}</span>
+              </div>
+              <div class="time-separator">-</div>
+              <div class="time-item">
+                <label>End Time</label>
+                <span class="time-value">{{ formatTime(leave.QEnd) }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- No Data State -->
+<div *ngIf="!loading && !error && leaves.length === 0" class="no-data-container">
+  <div class="no-data-icon">📋</div>
+  <h3>No Leave Requests Found</h3>
+  <p>You haven't submitted any leave requests yet.</p>
+  <button class="retry-btn" (click)="refreshLeaves()">Refresh</button>
+</div>
+
+<!-- Error State -->
+<div *ngIf="!loading && error" class="error-container">
+  <div class="error-icon">⚠️</div>
+  <h3>Unable to Load Leave Requests</h3>
+  <p>{{ error }}</p>
+  <button (click)="refreshLeaves()" class="retry-btn">Try Again</button>
+</div>

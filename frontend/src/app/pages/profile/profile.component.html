@@ -1,0 +1,137 @@
+<!-- Navigation Header (Always Show) -->
+<div class="navigation-header">
+  <button class="back-btn" (click)="goBackToDashboard()">
+    <span class="back-icon">←</span>
+    Back to Dashboard
+  </button>
+</div>
+
+<!-- Loading State -->
+<div *ngIf="!employee && !error" class="loading-container">
+  <div class="loading-spinner"></div>
+  <p>Loading profile information...</p>
+</div>
+
+<!-- Profile Data -->
+<div *ngIf="employee" class="profile-container">
+  <div class="profile-header">
+    <div class="profile-avatar">
+      <div class="avatar-circle">
+        <span class="avatar-initials">{{ getInitials(employee.profile?.Vorna, employee.profile?.Nachn) }}</span>
+      </div>
+    </div>
+    <div class="profile-info">
+      <h2 class="employee-name">{{ employee.profile?.Vorna }} {{ employee.profile?.Nachn }}</h2>
+      <p class="employee-id">Personnel Number: {{ employee.profile?.Pernr }}</p>
+      <span class="status-badge active">Active Employee</span>
+    </div>
+  </div>
+
+  <div class="profile-content">
+    <!-- Personal Information Section -->
+    <div class="profile-section">
+      <h3 class="section-title">
+        <span class="section-icon">👤</span>
+        Personal Information
+      </h3>
+      <div class="info-grid">
+        <div class="info-item">
+          <label>Personnel Number</label>
+          <span>{{ employee.profile?.Pernr || 'N/A' }}</span>
+        </div>
+        <div class="info-item">
+          <label>First Name</label>
+          <span>{{ employee.profile?.Vorna || 'N/A' }}</span>
+        </div>
+        <div class="info-item">
+          <label>Last Name</label>
+          <span>{{ employee.profile?.Nachn || 'N/A' }}</span>
+        </div>
+        <div class="info-item">
+          <label>Birth Date</label>
+          <span>{{ formatBirthDate(employee.profile?.Gbtag) || 'N/A' }}</span>
+        </div>
+        <div class="info-item">
+          <label>Gender</label>
+          <span>{{ getGenderText(employee.profile?.Gesch) }}</span>
+        </div>
+        <div class="info-item">
+          <label>Nationality</label>
+          <span>{{ getNationalityText(employee.profile?.Natio) }}</span>
+        </div>
+        <div class="info-item">
+          <label>Language</label>
+          <span>{{ getLanguageText(employee.profile?.Sprsl) }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Address Information Section -->
+    <div class="profile-section">
+      <h3 class="section-title">
+        <span class="section-icon">🏠</span>
+        Address Information
+      </h3>
+      <div class="info-grid">
+        <div class="info-item">
+          <label>City</label>
+          <span>{{ employee.profile?.Ort01 || 'N/A' }}</span>
+        </div>
+        <div class="info-item">
+          <label>Postal Code</label>
+          <span>{{ employee.profile?.Pstlz || 'N/A' }}</span>
+        </div>
+        <div class="info-item">
+          <label>Country/Region</label>
+          <span>{{ getCountryText(employee.profile?.Land1) }}</span>
+        </div>
+        <div class="info-item full-width" *ngIf="employee.profile?.Locat">
+          <label>Additional Location Info</label>
+          <span>{{ employee.profile?.Locat }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Employment Information Section -->
+    <div class="profile-section">
+      <h3 class="section-title">
+        <span class="section-icon">💼</span>
+        Employment Information
+      </h3>
+      <div class="info-grid">
+        <div class="info-item">
+          <label>Start Date</label>
+          <span>{{ formatSapDate(employee.profile?.Begda) }}</span>
+        </div>
+        <div class="info-item">
+          <label>End Date</label>
+          <span>{{ formatSapDate(employee.profile?.Endda) }}</span>
+        </div>
+        <div class="info-item full-width">
+          <label>Employment Status</label>
+          <span class="status-active">{{ getEmploymentStatus(employee.profile?.Begda, employee.profile?.Endga) }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions Section -->
+    <div class="profile-actions">
+      <button class="action-btn primary" (click)="refreshProfile()">
+        <span class="btn-icon">🔄</span>
+        Refresh Profile
+      </button>
+      <button class="action-btn secondary" (click)="exportProfile()">
+        <span class="btn-icon">📄</span>
+        Export Data
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Error State -->
+<div *ngIf="!employee && error" class="error-container">
+  <div class="error-icon">⚠️</div>
+  <h3>Unable to Load Profile</h3>
+  <p>{{ error }}</p>
+  <button (click)="ngOnInit()" class="retry-btn">Try Again</button>
+</div>
