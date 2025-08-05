@@ -48,6 +48,10 @@ app.use('/api/profile', profileRoute);
 const leaveRoute = require('./leave');
 app.use('/api/leaves', leaveRoute);
 
+// 🆕 Payslip route import
+const payslipRoute = require('./payslip');
+app.use('/api/payslips', payslipRoute);
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });

@@ -1,1 +1,215 @@
-<p>payslip works!</p>
+<div class="payslip-container">
+  <!-- Header Section -->
+  <div class="header-section">
+    <div class="header-content">
+      <button class="back-btn" (click)="goBack()">
+        <span class="back-icon">←</span> Back to Dashboard
+      </button>
+      <h1 class="page-title">Employee Payslip</h1>
+      <div class="header-actions">
+        <button class="action-btn download-pdf-btn" (click)="downloadPayslip(payslipData[0])"
+                *ngIf="!loading && !error && payslipData.length > 0"
+                title="Download Current Payslip PDF">
+          <span class="btn-icon">📄</span> Download PDF
+        </button>
+        <button class="action-btn print-btn" (click)="printPayslip()">
+          <span class="btn-icon">🖨️</span> Print
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p>Loading payslip data...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="error-container">
+    <div class="error-content">
+      <span class="error-icon">⚠️</span>
+      <h3>Unable to Load Payslip</h3>
+      <p>{{ error }}</p>
+      <button class="retry-btn" (click)="loadPayslipData()">Try Again</button>
+    </div>
+  </div>
+
+  <!-- Payslip Data -->
+  <div *ngIf="!loading && !error && payslipData.length > 0" class="payslip-content">
+    
+    <!-- Employee Info Card -->
+    <div class="info-card employee-info">
+      <h2 class="card-title">Employee Information</h2>
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="info-label">Employee ID:</span>
+          <span class="info-value">{{ payslipData[0].empId }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Name:</span>
+          <span class="info-value">{{ payslipData[0].name }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Company Code:</span>
+          <span class="info-value">{{ payslipData[0].companyCode }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Cost Center:</span>
+          <span class="info-value">{{ payslipData[0].costCenter }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Pay Scale Group:</span>
+          <span class="info-value">{{ payslipData[0].pscaleGroup }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Pay Scale Level:</span>
+          <span class="info-value">{{ payslipData[0].psLevel }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Payslip Table -->
+    <div class="table-container">
+      <h2 class="table-title">Payslip Details</h2>
+      
+      <div class="table-wrapper">
+        <table class="payslip-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Amount</th>
+              <th>Wage Type</th>
+              <th>Working Hours</th>
+              <th>Cost Center</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let payslip of payslipData; let i = index" 
+                [class.highlight-row]="i === 0">
+              <td class="employee-name">{{ payslip.name }}</td>
+              <td class="amount salary">{{ formatCurrency(payslip.amount, payslip.currencyKey) }}</td>
+              <td class="wage-type">{{ payslip.wageType }}</td>
+              <td class="working-hours">{{ payslip.workingHours }} hrs</td>
+              <td class="cost-center">{{ payslip.costCenter }}</td>
+              <td class="actions">
+                <div class="action-buttons">
+                  <button class="download-btn" (click)="downloadPayslip(payslip)"
+                          title="Download Payslip PDF">
+                    📄 Download
+                  </button>
+                  <button class="email-btn" (click)="openEmailModal(payslip)"
+                          title="Send Payslip via Email">
+                    📧 Email
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="summary-section" *ngIf="payslipData.length > 0">
+      <h2 class="section-title">Current Month Summary</h2>
+      <div class="summary-cards">
+        <div class="summary-card gross">
+          <div class="card-icon">💰</div>
+          <div class="card-content">
+            <span class="card-label">Amount</span>
+            <span class="card-amount">{{ formatCurrency(payslipData[0].amount, payslipData[0].currencyKey) }}</span>
+          </div>
+        </div>
+        
+        <div class="summary-card hours">
+          <div class="card-icon">⏰</div>
+          <div class="card-content">
+            <span class="card-label">Working Hours</span>
+            <span class="card-amount">{{ payslipData[0].workingHours }} hrs</span>
+          </div>
+        </div>
+        
+        <div class="summary-card wage">
+          <div class="card-icon">�</div>
+          <div class="card-content">
+            <span class="card-label">Wage Type</span>
+            <span class="card-amount">{{ payslipData[0].wageType }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Company Details -->
+    <div class="info-card company-details" *ngIf="payslipData.length > 0">
+      <h2 class="card-title">Company Details</h2>
+      <div class="bank-info">
+        <div class="bank-item">
+          <span class="bank-label">Company Code:</span>
+          <span class="bank-value">{{ payslipData[0].companyCode }}</span>
+        </div>
+        <div class="bank-item">
+          <span class="bank-label">Cost Center:</span>
+          <span class="bank-value">{{ payslipData[0].costCenter }}</span>
+        </div>
+        <div class="bank-item">
+          <span class="bank-label">Currency:</span>
+          <span class="bank-value">{{ payslipData[0].currencyKey }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Data State -->
+  <div *ngIf="!loading && !error && payslipData.length === 0" class="no-data-container">
+    <div class="no-data-content">
+      <span class="no-data-icon">📊</span>
+      <h3>No Payslip Data Available</h3>
+      <p>No payslip records found for your account.</p>
+      <button class="refresh-btn" (click)="loadPayslipData()">Refresh</button>
+    </div>
+  </div>
+
+  <!-- Email Modal -->
+  <div *ngIf="showEmailModal" class="modal-overlay" (click)="closeEmailModal()">
+    <div class="email-modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Send Payslip via Email</h3>
+        <button class="close-btn" (click)="closeEmailModal()">×</button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="emailAddress">Email Address:</label>
+          <input 
+            type="email" 
+            id="emailAddress"
+            [(ngModel)]="emailAddress"
+            placeholder="Enter email address"
+            class="email-input"
+            [disabled]="sendingEmail">
+        </div>
+        
+        <div *ngIf="emailError" class="error-message">
+          {{ emailError }}
+        </div>
+        
+        <div class="info-message">
+          <span class="info-icon">ℹ️</span>
+          Your payslip PDF will be sent as an attachment to the email address provided.
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <button class="cancel-btn" (click)="closeEmailModal()" [disabled]="sendingEmail">
+          Cancel
+        </button>
+        <button class="send-btn" (click)="sendPayslipEmail(payslipData[0])" [disabled]="sendingEmail">
+          <span *ngIf="sendingEmail" class="loading-spinner-small"></span>
+          {{ sendingEmail ? 'Sending...' : 'Send Email' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
