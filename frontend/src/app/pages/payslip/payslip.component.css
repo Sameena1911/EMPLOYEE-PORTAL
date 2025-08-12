@@ -1,7 +1,7 @@
 /* Payslip Component Styles */
 .payslip-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #f04d62;
   padding: 20px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -195,7 +195,7 @@
   font-size: 20px;
   font-weight: 600;
   color: #333;
-  border-bottom: 2px solid #667eea;
+  border-bottom: 2px solid #f04d62;
   padding-bottom: 10px;
 }
 
@@ -239,7 +239,7 @@
   font-size: 20px;
   font-weight: 600;
   color: #333;
-  border-bottom: 2px solid #667eea;
+  border-bottom: 2px solid #f04d62;
   padding-bottom: 10px;
 }
 
@@ -258,7 +258,7 @@
 }
 
 .payslip-table thead {
-  background: linear-gradient(145deg, #667eea, #764ba2);
+  background: #f04d62;
 }
 
 .payslip-table th {

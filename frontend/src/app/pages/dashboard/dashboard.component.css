@@ -1,6 +1,6 @@
 .dashboard-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  
   padding: 40px 30px;
   font-family: 'Georgia', 'Times New Roman', serif;
   position: relative;
@@ -41,13 +41,13 @@
 }
 
 .welcome-text {
-  color: rgba(255, 255, 255, 0.8);
+  color: black;
   font-size: 14px;
   margin-bottom: 2px;
 }
 
 .user-name {
-  color: white;
+  color: black;
   font-size: 16px;
   font-weight: 600;
 }
@@ -57,7 +57,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background: rgba(255, 255, 255, 0.1);
+  background: #f04d62;
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: white;
   padding: 10px 16px;
@@ -70,8 +70,7 @@
 }
 
 .logout-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.3);
+
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
@@ -87,7 +86,7 @@
 .dashboard-title {
   font-size: 36px;
   font-weight: 300;
-  color: #ffffff;
+  color: black;
   margin: 0;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   letter-spacing: 1px;
@@ -100,7 +99,7 @@
   display: block;
   width: 80px;
   height: 3px;
-  background: linear-gradient(90deg, #ffd700, #ffed4a);
+  background: #f04d62;
   margin: 15px 0 0 0;
   border-radius: 2px;
 }
@@ -137,7 +136,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, #667eea, #764ba2);
+  background: #f04d62;
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.3s ease;
@@ -172,17 +171,17 @@
 }
 
 .profile-icon {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: #f04d62;
   color: white;
 }
 
 .leave-icon {
-  background: linear-gradient(135deg, #f093fb, #f5576c);
+  background: #f04d62;
   color: white;
 }
 
 .payslip-icon {
-  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  background: #f04d62;
   color: white;
 }
 

@@ -9,7 +9,7 @@
   align-items: center;
   gap: 8px;
   padding: 10px 20px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #f04d62;
   color: white;
   border: none;
   border-radius: 25px;
@@ -35,7 +35,7 @@
   align-items: center;
   justify-content: center;
   min-height: 400px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #f04d62;
   color: white;
   border-radius: 15px;
   margin: 20px;
@@ -67,7 +67,7 @@
 }
 
 .profile-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #f04d62;
   border-radius: 20px;
   padding: 40px;
   color: white;
@@ -120,7 +120,7 @@
 .status-badge {
   display: inline-block;
   padding: 8px 16px;
-  background: rgba(76, 175, 80, 0.9);
+  background: black;
   color: white;
   border-radius: 20px;
   font-size: 0.9rem;
@@ -128,7 +128,7 @@
 }
 
 .status-badge.active {
-  background: rgba(76, 175, 80, 0.9);
+  background: black;
 }
 
 .profile-content {
@@ -174,7 +174,7 @@
   padding: 15px;
   background: #f8fafc;
   border-radius: 10px;
-  border-left: 4px solid #667eea;
+  border-left: 4px solid #f04d62;
 }
 
 .info-item.full-width {
@@ -196,7 +196,7 @@
 }
 
 .status-active {
-  color: #38a169 !important;
+  color: #f04d62 !important;
   font-weight: bold;
 }
 
@@ -224,7 +224,7 @@
 }
 
 .action-btn.primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #f04d62;
   color: white;
 }
 
@@ -235,8 +235,8 @@
 
 .action-btn.secondary {
   background: white;
-  color: #667eea;
-  border: 2px solid #667eea;
+  color: black;
+  border: 2px solid #f04d62;
 }
 
 .action-btn.secondary:hover {
